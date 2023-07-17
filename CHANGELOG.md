@@ -1,5 +1,44 @@
 # Changelog
 
+## 5.3.0 / 2023-07-04
+
+## What's Changed
+* [BIT-351] Ask for wallet name on btcli unstake by @camfairchild in https://github.com/opentensor/bittensor/pull/1387
+* Fix tests using pure-Python MockSubtensor by @camfairchild in https://github.com/opentensor/bittensor/pull/1349
+* Update README.md by @mostimasblunderbuss in https://github.com/opentensor/bittensor/pull/1397
+* Update authint version by @ifrit98 in https://github.com/opentensor/bittensor/pull/1395
+* Fix subtensor factory integration test by @camfairchild in https://github.com/opentensor/bittensor/pull/1400
+* Remove neurons by @ifrit98 in https://github.com/opentensor/bittensor/pull/1389
+* Merge pull request #1394 from opentensor/fix_axon_requests by @ifrit98 in https://github.com/opentensor/bittensor/pull/1406
+* remove hotkey from proto and dendrite by @ifrit98 in https://github.com/opentensor/bittensor/pull/1407
+* Weight Utils fix by @mrseeker in https://github.com/opentensor/bittensor/pull/1372
+* Extract config to new package by @camfairchild in https://github.com/opentensor/bittensor/pull/1401
+* Extract wallet by @camfairchild in https://github.com/opentensor/bittensor/pull/1403
+* BTCli integration with new governance protocol by @Rubberbandits in https://github.com/opentensor/bittensor/pull/1398
+* Reverting unnecessary commits for next release. by @camfairchild in https://github.com/opentensor/bittensor/pull/1415
+* Extract wallet and config by @camfairchild in https://github.com/opentensor/bittensor/pull/1411
+
+## New Contributors
+* @mostimasblunderbuss made their first contribution in https://github.com/opentensor/bittensor/pull/1397
+
+**Full Changelog**: https://github.com/opentensor/bittensor/compare/v5.2.0...v5.3.0
+
+
+## 5.2.0 / 2023-06-28
+
+## What's Changed
+* add default 1024 max stake limit for querying UIDs with vpermit. by @ifrit98 in https://github.com/opentensor/bittensor/pull/1379
+* Fixes validator permit issue seen on master by @unconst in https://github.com/opentensor/bittensor/pull/1381
+* Added conda environment by @shibshib in https://github.com/opentensor/bittensor/pull/1386
+* Update package requirements (hotfix) by @ifrit98 in https://github.com/opentensor/bittensor/pull/1385
+* Merge master into new_staging by @ifrit98 in https://github.com/opentensor/bittensor/pull/1388
+* Fix axon requests signature using metadata by @unconst in https://github.com/opentensor/bittensor/pull/1394
+* Governance Protocol Release by @Rubberbandits in https://github.com/opentensor/bittensor/pull/1414
+
+
+**Full Changelog**: https://github.com/opentensor/bittensor/compare/v5.1.0...v5.2.0
+
+
 ## 5.1.0 / 2023-05-30
 
 ## What's Changed

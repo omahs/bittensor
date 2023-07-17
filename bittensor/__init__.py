@@ -27,7 +27,7 @@ import nest_asyncio
 nest_asyncio.apply()
 
 # Bittensor code and protocol version.
-__version__ = '5.1.0'
+__version__ = '5.3.0'
 version_split = __version__.split(".")
 __version_as_int__ = (100 * int(version_split[0])) + (10 * int(version_split[1])) + (1 * int(version_split[2]))
 __new_signature_version__ = 360
@@ -76,9 +76,9 @@ __networks__ = [ 'local', 'finney']
 
 __datasets__ = ['ArXiv', 'BookCorpus2', 'Books3', 'DMMathematics', 'EnronEmails', 'EuroParl', 'Gutenberg_PG', 'HackerNews', 'NIHExPorter', 'OpenSubtitles', 'PhilPapers', 'UbuntuIRC', 'YoutubeSubtitles']
 
-__nobunaga_entrypoint__ = "wss://stagingnode.opentensor.ai:443"
-
 __finney_entrypoint__ = "wss://entrypoint-finney.opentensor.ai:443"
+
+__finney_test_entrypoint__ = "wss://test.finney.opentensor.ai:443/"
 
 # Needs to use wss://
 __bellagene_entrypoint__ = "wss://parachain.opentensor.ai:443"
@@ -131,7 +131,7 @@ except ValueError:
 
 
 # ---- Config ----
-from bittensor._config import config as config
+from bittensor_config import config as config
 
 # ---- LOGGING ----
 # Duplicate import for ease of use.
@@ -155,8 +155,8 @@ from bittensor.utils.balance import Balance as Balance
 from bittensor._cli import cli as cli
 from bittensor._axon import axon as axon
 from bittensor._axon import axon_info as axon_info
-from bittensor._wallet import wallet as wallet
-from bittensor._keyfile import keyfile as keyfile
+from bittensor_wallet import wallet as wallet
+from bittensor_wallet import keyfile as keyfile
 from bittensor._metagraph import metagraph as metagraph
 from bittensor._prometheus import prometheus as prometheus
 from bittensor._subtensor import subtensor as subtensor
@@ -169,13 +169,16 @@ from bittensor._priority import priority as priority
 
 # ---- Classes -----
 from bittensor._cli.cli_impl import CLI as CLI
-from bittensor._config.config_impl import Config as Config
+from bittensor_config.config_impl import Config as Config
 from bittensor._subtensor.chain_data import DelegateInfo as DelegateInfo
-from bittensor._wallet.wallet_impl import Wallet as Wallet
-from bittensor._keyfile.keyfile_impl import Keyfile as Keyfile
+from bittensor_wallet import Wallet as Wallet
+from bittensor_wallet import Keyfile as Keyfile
+from bittensor_wallet import Keypair as Keypair
 from bittensor._subtensor.chain_data import NeuronInfo as NeuronInfo
 from bittensor._subtensor.chain_data import NeuronInfoLite as NeuronInfoLite
 from bittensor._subtensor.chain_data import PrometheusInfo as PrometheusInfo
+from bittensor._subtensor.chain_data import ProposalCallData as ProposalCallData
+from bittensor._subtensor.chain_data import ProposalVoteData as ProposalVoteData
 from bittensor._subtensor.subtensor_impl import Subtensor as Subtensor
 from bittensor._serializer.serializer_impl import Serializer as Serializer
 from bittensor._subtensor.chain_data import SubnetInfo as SubnetInfo
@@ -184,12 +187,10 @@ from bittensor._threadpool.priority_thread_pool_impl import PriorityThreadPoolEx
 from bittensor._ipfs.ipfs_impl import Ipfs as Ipfs
 
 # ---- Errors and Exceptions -----
-from bittensor._keyfile.keyfile_impl import KeyFileError as KeyFileError
+from bittensor_wallet import KeyFileError as KeyFileError
 
 from bittensor._proto.bittensor_pb2 import ForwardTextPromptingRequest
 from bittensor._proto.bittensor_pb2 import ForwardTextPromptingResponse
-from bittensor._proto.bittensor_pb2 import MultiForwardTextPromptingRequest
-from bittensor._proto.bittensor_pb2 import MultiForwardTextPromptingResponse
 from bittensor._proto.bittensor_pb2 import BackwardTextPromptingRequest
 from bittensor._proto.bittensor_pb2 import BackwardTextPromptingResponse
 
@@ -206,15 +207,8 @@ from bittensor._dendrite.text_prompting.dendrite_pool import TextPromptingDendri
 
 # ---- Base Miners -----
 from bittensor._neuron.base_miner_neuron import BaseMinerNeuron
-from bittensor._neuron.base_validator import BaseValidator
 from bittensor._neuron.base_prompting_miner import BasePromptingMiner
 from bittensor._neuron.base_huggingface_miner import HuggingFaceMiner
-
-# ---- Errors and Exceptions -----
-from bittensor._keyfile.keyfile_impl import KeyFileError as KeyFileError
-
-# ---- Errors and Exceptions -----
-from bittensor._keyfile.keyfile_impl import KeyFileError as KeyFileError
 
 # DEFAULTS
 defaults = Config()
@@ -223,11 +217,9 @@ subtensor.add_defaults( defaults )
 axon.add_defaults( defaults )
 prioritythreadpool.add_defaults( defaults )
 prometheus.add_defaults( defaults )
-wallet.add_defaults( defaults )
+wallet.add_defaults( defaults, prefix = 'wallet' )
 dataset.add_defaults( defaults )
 logging.add_defaults( defaults )
-
-from substrateinterface import Keypair as Keypair
 
 # Logging helpers.
 def trace():
