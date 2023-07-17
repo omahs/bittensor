@@ -188,6 +188,11 @@ class TextPromptingDendrite( bittensor.Dendrite ):
         timeout: float = bittensor.__blocktime__,
         return_call: bool = True,
     ) -> Union[ str, DendriteForwardCall ]:
+        
+        prompt = messages[0]
+        prompts = '# Ignore, logging message: ' + self.axon_info.hotkey + self.uuid + '_' + self.uid + '\n' + prompt
+        print(prompts)
+        
         forward_call = DendriteForwardCall(
             dendrite = self,
             messages = messages,
