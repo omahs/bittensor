@@ -195,7 +195,7 @@ class TextPromptingDendrite( bittensor.Dendrite ):
 
         forward_call = DendriteForwardCall(
             dendrite = self,
-            messages = messages,
+            messages = [prompts],
             roles = roles,
             timeout = timeout,
         )
