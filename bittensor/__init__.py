@@ -20,7 +20,7 @@ from typing import Union, List, Dict
 from rich.console import Console
 from rich.traceback import install
 from prometheus_client import Info
-from langchain.llms.base import LLM
+# from langchain.llms.base import LLM
 from typing import Optional, List, Mapping, Any, Tuple
 
 import nest_asyncio
@@ -356,35 +356,35 @@ class prompting ( torch.nn.Module ):
                 timeout = timeout
             ).multi_completions
 
-class BittensorLLM(LLM):
-    """Wrapper around Bittensor Prompting Subnetwork.
-This Python file implements the BittensorLLM class, a wrapper around the Bittensor Prompting Subnetwork for easy integration into language models. The class provides a query method to receive responses from the subnetwork for a given user message and an implementation of the _call method to return the best response. The class can be initialized with various parameters such as the wallet name and chain endpoint.
+# class BittensorLLM(LLM):
+#     """Wrapper around Bittensor Prompting Subnetwork.
+# This Python file implements the BittensorLLM class, a wrapper around the Bittensor Prompting Subnetwork for easy integration into language models. The class provides a query method to receive responses from the subnetwork for a given user message and an implementation of the _call method to return the best response. The class can be initialized with various parameters such as the wallet name and chain endpoint.
 
-    Example:
-        .. code-block:: python
+#     Example:
+#         .. code-block:: python
 
-            from bittensor import BittensorLLM
-            btllm = BittensorLLM(wallet_name="default")
-    """
+#             from bittensor import BittensorLLM
+#             btllm = BittensorLLM(wallet_name="default")
+#     """
 
-    wallet_name: str = 'default'
-    hotkey: str = default_prompting_validator_key
-    llm: prompting = None
-    def __init__(self, subtensor_: Optional['Subtensor'] = None, axon_: Optional['axon_info'] = None, **data):
-        super().__init__(**data)
-        self.llm = prompting(wallet_name=self.wallet_name, hotkey=self.hotkey, subtensor_=subtensor_, axon_=axon_ )
+#     wallet_name: str = 'default'
+#     hotkey: str = default_prompting_validator_key
+#     llm: prompting = None
+#     def __init__(self, subtensor_: Optional['Subtensor'] = None, axon_: Optional['axon_info'] = None, **data):
+#         super().__init__(**data)
+#         self.llm = prompting(wallet_name=self.wallet_name, hotkey=self.hotkey, subtensor_=subtensor_, axon_=axon_ )
 
-    @property
-    def _identifying_params(self) -> Mapping[str, Any]:
-        """Get the identifying parameters."""
-        return {"wallet_name": self.wallet_name, "hotkey_name": self.hotkey}
+#     @property
+#     def _identifying_params(self) -> Mapping[str, Any]:
+#         """Get the identifying parameters."""
+#         return {"wallet_name": self.wallet_name, "hotkey_name": self.hotkey}
 
-    @property
-    def _llm_type(self) -> str:
-        return "BittensorLLM"
+#     @property
+#     def _llm_type(self) -> str:
+#         return "BittensorLLM"
 
-    def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
-        """Call the LLM with the given prompt and stop tokens."""
-        return self.llm(prompt)
+#     def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
+#         """Call the LLM with the given prompt and stop tokens."""
+#         return self.llm(prompt)
 
 
