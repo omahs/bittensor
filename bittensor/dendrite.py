@@ -70,7 +70,7 @@ class dendrite(torch.nn.Module):
         self.uuid = str(uuid.uuid1())
 
         # HTTP client for making requests
-        self.client = aiohttp.ClientSession()
+        self.client = None #aiohttp.ClientSession()
 
         # Get the external IP
         self.external_ip = bt.utils.networking.get_external_ip()
@@ -79,6 +79,17 @@ class dendrite(torch.nn.Module):
         self.keypair = (
             wallet.hotkey if isinstance(wallet, bt.wallet) else wallet
         ) or bt.wallet().hotkey
+
+    # Create a new context manager method
+    async def get_client(self):
+        if self.client is None or self.client.closed:
+            self.client = aiohttp.ClientSession()
+        return self.client
+
+    # When you are done with the client
+    async def close_client(self):
+        if self.client is not None:
+            await self.client.close()
 
     def query(self, *args, **kwargs):
         """
@@ -233,24 +244,26 @@ class dendrite(torch.nn.Module):
             )
             # Make the HTTP POST request
             if streaming:
-                async with self.client.post(
-                    url,
-                    headers=synapse.to_headers(),
-                    json=synapse.dict(),
-                    timeout=timeout,
-                ) as response:
-                    async for json_response in synapse.parse_stream_async(
-                        response.content
-                    ):
-                        pass
+                async with await self.get_client() as client:
+                    with client.post(
+                        url,
+                        headers=synapse.to_headers(),
+                        json=synapse.dict(),
+                        timeout=timeout,
+                    ) as response:
+                        async for json_response in synapse.parse_stream_async(
+                            response.content
+                        ):
+                            pass
             else:
-                response = await self.client.post(
-                    url,
-                    headers=synapse.to_headers(),
-                    json=synapse.dict(),
-                    timeout=timeout,
-                )
-                json_response = await response.json()
+                async with await self.get_client() as client:
+                    response = await client.post(
+                        url,
+                        headers=synapse.to_headers(),
+                        json=synapse.dict(),
+                        timeout=timeout,
+                    )
+                    json_response = await response.json()
 
             # Process the server response
             self.process_server_response(response, json_response, synapse)
