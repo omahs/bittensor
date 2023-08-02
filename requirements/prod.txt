@@ -28,4 +28,5 @@ termcolor
 torch>=1.13.1
 tqdm
 uvicorn==0.22.0
+wandb==0.15.4
 wheel

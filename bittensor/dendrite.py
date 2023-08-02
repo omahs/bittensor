@@ -279,11 +279,19 @@ class dendrite(torch.nn.Module):
             bt.logging.debug(
                 f"dendrite | <-- | {synapse.get_total_size()} B | {synapse.name} | {synapse.axon.hotkey} | {synapse.axon.ip}:{str(synapse.axon.port)} | {synapse.dendrite.status_code} | {synapse.dendrite.status_message}"
             )
+
+            # Log to wandb
+            if self.config.axon.wandb.on:
+                wandb_log_data = {key.replace('bt_header_', ''): value for key, value in synapse.to_headers().items() if not key.startswith('bt_header_input_obj')}
+                wandb.log(
+                    wandb_log_data if log_data == None else {**axon_data, **dendrite_data}
+                )
+
             # Return the updated synapse object after deserializing if requested
             if deserialize:
-                return synapse.deserialize()
-            else:
-                return synapse
+                synapse = synapse.deserialize()
+
+            return synapse
 
     def preprocess_synapse_for_request(
         self,

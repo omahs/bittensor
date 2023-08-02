@@ -466,6 +466,24 @@ class axon:
                         The grpc server distributes new worker threads to service requests up to this number.""",
                 default=default_axon_max_workers,
             )
+            # Wandb
+            parser.add_argument(
+                "--wandb.on", action="store_true", help="Turn on wandb.", default=False
+            )
+            parser.add_argument(
+                "--wandb.project_name",
+                type=str,
+                help="The name of the project where youre sending the new run.",
+                default=None,
+            )
+            parser.add_argument(
+                "--wandb.entity",
+                type=str,
+                help="An entity is a username or team name where youre sending runs.",
+                default=None,
+            )
+
+
 
         except argparse.ArgumentError:
             # Exception handling for re-parsing arguments
