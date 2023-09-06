@@ -812,13 +812,12 @@ class subtensor:
         self,
         netuid: int,
         axon: "bittensor.Axon",
-        use_upnpc: bool = False,
         wait_for_inclusion: bool = False,
         wait_for_finalization: bool = True,
         prompt: bool = False,
     ) -> bool:
         return serve_axon_extrinsic(
-            self, netuid, axon, use_upnpc, wait_for_inclusion, wait_for_finalization
+            self, netuid, axon, wait_for_inclusion, wait_for_finalization
         )
 
     def _do_serve_axon(
@@ -2569,32 +2568,6 @@ class subtensor:
             bittensor.__console__.print(
                 ":hourglass: [yellow]Timeout nominate call.[/yellow]"
             )
-
-    def weights(
-        self, netuid: int, block: Optional[int] = None
-    ) -> List[Tuple[int, List[Tuple[int, int]]]]:
-        w_map = []
-        w_map_encoded = self.query_map_subtensor(
-            name="Weights", block=block, params=[netuid]
-        )
-        if w_map_encoded.records:
-            for uid, w in w_map_encoded:
-                w_map.append((uid.serialize(), w.serialize()))
-
-        return w_map
-
-    def bonds(
-        self, netuid: int, block: Optional[int] = None
-    ) -> List[Tuple[int, List[Tuple[int, int]]]]:
-        b_map = []
-        b_map_encoded = self.query_map_subtensor(
-            name="Bonds", block=block, params=[netuid]
-        )
-        if b_map_encoded.records:
-            for uid, b in b_map_encoded:
-                b_map.append((uid.serialize(), b.serialize()))
-
-        return b_map
 
     ################
     #### Legacy ####
