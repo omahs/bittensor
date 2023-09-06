@@ -60,6 +60,7 @@ class TestSubtensorWithExternalAxon(unittest.TestCase):
         mock_subtensor.serve_axon(
             netuid=-1,
             axon=mock_axon_with_external_ip_set,
+            use_upnpc=False,
         )
 
         mock_serve_axon.assert_called_once()
@@ -114,6 +115,7 @@ class TestSubtensorWithExternalAxon(unittest.TestCase):
             mock_subtensor.serve_axon(
                 netuid=-1,
                 axon=mock_axon_with_external_port_set,
+                use_upnpc=False,
             )
 
         mock_serve_axon.assert_called_once()
