@@ -74,26 +74,30 @@ jobs:
 
     steps:
       - checkout
-
+      
+      # Restoring Cache
       - restore_cache:
-          name: Restore cached venv
+          name: Restore Poetry Cache
           keys:
-            - v1-pypi-py<< parameters.python-version >>-{{ checksum "requirements/prod.txt" }}+{{ checksum "requirements/dev.txt" }}
-            - v1-pypi-py<< parameters.python-version >>
+            - poetry-cache-v1-{{ checksum "pyproject.toml" }}
+
+      # Installing dependencies
+      - run:
+          name: Install Poetry
+          command: |
+            curl -sSL https://install.python-poetry.org | python -
 
       - run:
-          name: Update & Activate venv
+          name: Install Dependencies
           command: |
-            python -m venv env/
-            . env/bin/activate
-            python -m pip install --upgrade pip
-            python -m pip install '.[dev]'
+            poetry install
 
+      # Saving Cache
       - save_cache:
-          name: Save cached venv
+          name: Save Poetry Cache
           paths:
-            - "env/"
-          key: v1-pypi-py<< parameters.python-version >>-{{ checksum "requirements/prod.txt" }}+{{ checksum "requirements/dev.txt" }}
+            - "~/.cache/pypoetry"
+          key: poetry-cache-v1-{{ checksum "pyproject.toml" }}
 
       - run:
           name: Install Bittensor
