@@ -96,33 +96,6 @@ class dendrite(torch.nn.Module):
             await self._session.close()
             self._session = None
 
-    def query(
-        self, *args, **kwargs
-    ) -> Union[bittensor.Synapse, List[bittensor.Synapse]]:
-        """
-        Makes a synchronous request to multiple target Axons and returns the server responses.
-
-        Args:
-            axons (Union[List[Union['bittensor.AxonInfo', 'bittensor.axon']], Union['bittensor.AxonInfo', 'bittensor.axon']]):
-                The list of target Axon information.
-            synapse (bittensor.Synapse, optional): The Synapse object. Defaults to bittensor.Synapse().
-            timeout (float, optional): The request timeout duration in seconds.
-                Defaults to 12.0 seconds.
-        Returns:
-            Union[bittensor.Synapse, List[bittensor.Synapse]]: If a single target axon is provided,
-                returns the response from that axon. If multiple target axons are provided,
-                returns a list of responses from all target axons.
-        """
-        try:
-            loop = asyncio.get_event_loop()
-            return loop.run_until_complete(self.forward(*args, **kwargs))
-        except:
-            new_loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(new_loop)
-            result = loop.run_until_complete(self.forward(*args, **kwargs))
-            new_loop.close()
-            return result
-
     async def forward(
         self,
         axons: Union[
